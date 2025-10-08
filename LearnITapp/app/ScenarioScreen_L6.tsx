@@ -8,24 +8,27 @@
  * @requires expo-av for video/audio playback
  * @requires expo-screen-orientation for landscape mode
  * 
- * TODO: Extract reusable components:
- * - VideoPlayer wrapper
- * - DialogueChoice buttons
- * - IntroScreen component
+ * REFACTORED: Now uses modular components from components/scenario/
  */
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
-  StyleSheet,
-  TouchableOpacity,
   Text,
+  StyleSheet,
   Animated,
-  ScrollView,
 } from "react-native";
 import { Video, Audio, AVPlaybackStatus, ResizeMode } from "expo-av";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { useRouter, Stack } from "expo-router";
 import { useWindowDimensions } from "react-native";
+import {
+  ScenarioIntroScreen,
+  CharacterDialogue,
+  ChoiceButtons,
+  BadEndingScreen,
+  CongratsScreen,
+  type Choice,
+} from '../components/scenario';
 
 export default function ScenarioScreenL6() {
   const router = useRouter();
@@ -892,52 +895,13 @@ export default function ScenarioScreenL6() {
     return (
       <>
         <Stack.Screen options={{ headerShown: false }} />
-        <View style={styles.introContainer}>
-          <ScrollView 
-          style={styles.introScrollView}
-          contentContainerStyle={styles.introScrollContent}
-          showsVerticalScrollIndicator={false}
-        >
-          <Animated.View 
-            style={[
-              styles.introContent,
-              {
-                opacity: introOpacity,
-                transform: [{ scale: introScale }],
-              },
-            ]}
-          >
-            <View style={styles.difficultyBadge}>
-              <Text style={styles.difficultyText}>⭐⭐⭐ Complex</Text>
-            </View>
-            
-            <Text style={styles.scenarioTitle}>
-              Ang Lindol sa Paaralan
-            </Text>
-            
-            <Text style={styles.scenarioDescription}>
-              Ikaw si Aiko, isang mag-aaral na nag-aaral sa klase. Biglang nagsimula ang lupa na yumanig. Ang iyong mga desisyon sa mga susunod na sandali ay maaaring makaligtas ng buhay - hindi lamang ang iyo, kundi pati na rin ang iyong mga kaklase.{"\n\n"}
-              Sa sitwasyong ito, makikita natin ang kahalagahan ng <Text style={{ fontWeight: "bold", color: "#6B73FF" }}>kahandaan, katatagan ng loob,</Text> at <Text style={{ fontWeight: "bold", color: "#6B73FF" }}>pagtulong sa kapwa</Text> sa panahon ng kalamidad.
-            </Text>
-            
-            <View style={styles.introButtonContainer}>
-              <TouchableOpacity 
-                style={styles.playButton} 
-                onPress={handleStartScenario}
-              >
-                <Text style={styles.playButtonText}>▶ Magsimula</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-                style={styles.backButtonIntro} 
-                onPress={handleGoBack}
-              >
-                <Text style={styles.backButtonIntroText}>Bumalik</Text>
-              </TouchableOpacity>
-            </View>
-          </Animated.View>
-        </ScrollView>
-      </View>
+        <ScenarioIntroScreen
+          title="Ang Lindol sa Paaralan"
+          description="Ikaw si Aiko, isang mag-aaral na nag-aaral sa klase. Biglang nagsimula ang lupa na yumanig. Ang iyong mga desisyon sa mga susunod na sandali ay maaaring makaligtas ng buhay - hindi lamang ang iyo, kundi pati na rin ang iyong mga kaklase.\n\nSa sitwasyong ito, makikita natin ang kahalagahan ng kahandaan, katatagan ng loob, at pagtulong sa kapwa sa panahon ng kalamidad."
+          difficulty="⭐⭐⭐ Complex"
+          onStart={handleStartScenario}
+          onBack={handleGoBack}
+        />
       </>
     );
   }
@@ -1502,123 +1466,45 @@ export default function ScenarioScreenL6() {
       )}
 
       {/* Character Dialogue */}
-      {showCharacterDialogue && (
-        <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={handleCharacterDialogueClick}
-        >
-          <Animated.View
-            style={[
-              styles.characterDialogueContainer,
-              {
-                opacity: characterDialogueOpacity,
-                borderColor: getCharacterBadgeColor(),
-              },
-            ]}
-          >
-            <View
-              style={[
-                styles.characterNameBadge,
-                { backgroundColor: getCharacterBadgeColor() },
-              ]}
-            >
-              <Text style={styles.characterName}>{currentCharacter}</Text>
-            </View>
-
-            <View style={styles.characterDialogueText}>
-              <Text style={[styles.dialogueText, isMonologue && { fontStyle: 'italic' }]}>
-                {characterTypedText}
-                {characterTypedText.length < currentDialogueSet[currentCharacterDialogue]?.length && (
-                  <Text style={styles.cursor}>▊</Text>
-                )}
-              </Text>
-
-              {characterTypedText === currentDialogueSet[currentCharacterDialogue] && (
-                <Text style={styles.nextIndicator}>▶</Text>
-              )}
-            </View>
-          </Animated.View>
-        </TouchableOpacity>
+      {showCharacterDialogue && currentDialogueSet[currentCharacterDialogue] && (
+        <CharacterDialogue
+          character={currentCharacter}
+          dialogue={currentDialogueSet[currentCharacterDialogue]}
+          characterColor={getCharacterBadgeColor()}
+          showNextIndicator
+          onNext={handleCharacterDialogueClick}
+          isMonologue={isMonologue}
+        />
       )}
 
       {/* Choices */}
       {showChoices && (
-        <Animated.View
-          style={[
-            currentVideoScene === 'l6_safety1' ? styles.choicesContainerCentered : styles.choicesContainer,
-            { opacity: choicesOpacity },
-          ]}
-        >
-          {currentChoiceSet.map((choice, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.choiceButton}
-              onPress={() => handleChoice(choice.action)}
-            >
-              <Text style={styles.choiceText}>{choice.text}</Text>
-            </TouchableOpacity>
-          ))}
-        </Animated.View>
+        <ChoiceButtons
+          choices={currentChoiceSet}
+          onChoice={handleChoice}
+          centered={currentVideoScene === 'l6_safety1'}
+        />
       )}
 
-      {/* Persona 3 Congratulations Screen */}
+      {/* Congratulations Screen */}
       {showCongrats && (
-        <Animated.View
-          style={[
-            styles.persona3CongratsContainer,
-            {
-              opacity: congratsOpacity,
-              transform: [{ scale: congratsScale }],
-            },
-          ]}
-        >
-          <View style={styles.persona3CongratsCard}>
-            <Text style={styles.persona3CongratsTitle}>SCENARIO COMPLETE</Text>
-            <View style={styles.persona3Divider} />
-            <Text style={styles.persona3CongratsMessage}>
-              Nai-demonstrate mo ang tamang pagtugon sa panahon ng lindol at nakatulong ka sa kaligtasan ng inyong klase.
-            </Text>
-            <Text style={styles.persona3CongratsValue}>
-              Preparedness • Calmness • Teamwork
-            </Text>
-            <TouchableOpacity
-              style={styles.persona3BackButton}
-              onPress={handleGoBack}
-            >
-              <Text style={styles.persona3BackButtonText}>▶ RETURN TO SCENARIOS</Text>
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
+        <CongratsScreen
+          title="🎉 SCENARIO COMPLETE"
+          message="Nai-demonstrate mo ang tamang pagtugon sa panahon ng lindol at nakatulong ka sa kaligtasan ng inyong klase.\n\nPreparedness • Calmness • Teamwork"
+          onContinue={handleGoBack}
+          continueButtonText="▶ RETURN TO SCENARIOS"
+          showBackButton={false}
+        />
       )}
 
       {/* Bad Ending Screen */}
       {showBadEnding && (
-        <Animated.View
-          style={[
-            styles.badEndingContainer,
-            { opacity: badEndingOpacity },
-          ]}
-        >
-          <View style={styles.badEndingCard}>
-            <Text style={styles.badEndingTitle}>MALI ANG DESISYON</Text>
-            <View style={[styles.persona3Divider, { backgroundColor: "#ef4444" }]} />
-            <Text style={styles.badEndingMessage}>
-              {badEndingMessage}
-            </Text>
-            <TouchableOpacity
-              style={styles.tryAgainButton}
-              onPress={handleTryAgain}
-            >
-              <Text style={styles.tryAgainButtonText}>↻ Subukan Muli</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.backButtonIntro, { marginTop: 10 }]}
-              onPress={handleGoBack}
-            >
-              <Text style={styles.backButtonIntroText}>Bumalik</Text>
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
+        <BadEndingScreen
+          title="💀 MALI ANG DESISYON"
+          message={badEndingMessage}
+          onRetry={handleTryAgain}
+          onGoBack={handleGoBack}
+        />
       )}
     </View>
     </>
