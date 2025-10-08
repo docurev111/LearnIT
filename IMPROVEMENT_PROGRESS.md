@@ -67,9 +67,16 @@
 - ✅ All components have JSDoc documentation
 - ✅ TypeScript interfaces for all props
 
+#### ✅ Screen Refactoring (Oct 8, 2025):
+- [x] **Refactored `ScenarioScreen_L6.tsx`**
+  - Before: 1627 lines
+  - After: 1446 lines  
+  - Reduction: -181 lines (-11%)
+  - Applied: ScenarioIntroScreen, CharacterDialogue, ChoiceButtons, BadEndingScreen, CongratsScreen
+
 #### 🚧 Next Steps:
-- [ ] Refactor `ScenarioScreen_L6.tsx` (1543 lines) to use new components
 - [ ] Refactor `ScenarioScreen_L2.tsx` (1438 lines) to use new components
+- [ ] Refactor `TunayNaAkoScreen.tsx` (1224 lines)
 - [ ] Extract VideoPlayer wrapper component
 - [ ] Create LessonCard components library
 - [ ] Build QuestionCard component for quizzes
@@ -149,9 +156,12 @@
 - **Naming issues fixed**: 2 files renamed
 - **Security issues**: 0 (resolved)
 - **Lines of reusable code**: ~1,365 lines
+- **Screens refactored**: 1 (ScenarioScreen_L6)
 
 ### Technical Debt Reduction
-- **Large files (1000+ lines)**: 4 files (ready for refactoring with new components)
+- **Large files (1000+ lines)**: 3 files remaining (down from 4)
+- **ScenarioScreen_L6**: 1627 → 1446 lines (-11%)
+- **Code reduction achieved**: -181 lines in one screen
 - **Duplicate components**: 3 game screen versions (to be consolidated)
 - **Test coverage**: 0% (needs setup, but components are now testable)
 
