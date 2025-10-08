@@ -15,7 +15,7 @@ import { Stack } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import BottomNav from '../components/BottomNav';
 import NotificationBell from '../components/NotificationBell';
-import LessonIntroModal from './LessonIntroModal_simple';
+import LessonIntroModal from './LessonIntroModalSimple';
 import pickApiBase from '../config/api_probe';
 import { auth } from '../firebaseConfig';
 
@@ -130,7 +130,7 @@ const LessonCard = ({ lesson, index, onPress }: { lesson: any; index: number; on
   );
 };
 
-export default function LessonsScreen() {
+export default function FirstQuarter() {
   const router = useRouter();
   const [selectedLesson, setSelectedLesson] = useState<any>(null);
   const [modalVisible, setModalVisible] = useState(false);

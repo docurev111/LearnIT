@@ -1,4 +1,23 @@
-// app/QuizScreen.tsx
+/**
+ * QuizScreen.tsx
+ * 
+ * Interactive quiz interface with multiple question types (multiple choice, true/false).
+ * Fetches questions from backend, tracks user answers, calculates scores, and awards XP.
+ * 
+ * @component
+ * @param {string} lessonId - The ID of the lesson this quiz belongs to (from route params)
+ * 
+ * Features:
+ * - Dynamic question loading from API
+ * - Progress tracking
+ * - XP rewards on completion
+ * - Anti-farming protection
+ * 
+ * TODO: Extract reusable components:
+ * - QuestionCard component
+ * - ProgressBar component
+ * - ScoreCard component
+ */
 import React, { useEffect, useState } from 'react';
 import {
   View,

@@ -1,3 +1,24 @@
+/**
+ * HomeScreen.tsx
+ * 
+ * Main dashboard screen displaying user profile, stats, featured lessons,
+ * daily sign-in bonus, and quick access to major app sections.
+ * 
+ * @component
+ * 
+ * Features:
+ * - User profile card with avatar, level, and XP
+ * - Featured lessons carousel
+ * - Daily sign-in rewards
+ * - Notifications bell
+ * - Internationalization support
+ * - Pull-to-refresh functionality
+ * 
+ * TODO: Extract reusable components:
+ * - ProfileCard component
+ * - FeaturedLessonCard component
+ * - StatsWidget component
+ */
 import React, { useRef, useEffect, useState, useCallback, useMemo } from "react";
 import {
   View,

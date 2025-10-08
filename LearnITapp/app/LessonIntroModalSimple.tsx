@@ -1,4 +1,4 @@
-// LessonIntroModal_simple.tsx - Fancy single modal (merged and cleaned)
+// LessonIntroModalSimple.tsx - Fancy single modal (merged and cleaned)
 import React from 'react';
 import {
   View,

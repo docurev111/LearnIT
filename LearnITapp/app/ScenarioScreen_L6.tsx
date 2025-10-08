@@ -1,3 +1,18 @@
+/**
+ * ScenarioScreenL6.tsx
+ * 
+ * Interactive scenario screen for Lesson 6 with video playback, dialogue choices,
+ * and branching narrative paths. Handles orientation changes and audio.
+ * 
+ * @component
+ * @requires expo-av for video/audio playback
+ * @requires expo-screen-orientation for landscape mode
+ * 
+ * TODO: Extract reusable components:
+ * - VideoPlayer wrapper
+ * - DialogueChoice buttons
+ * - IntroScreen component
+ */
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
