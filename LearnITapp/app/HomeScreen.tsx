@@ -513,11 +513,10 @@ const HomeScreen = () => {
 
             <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
               <TouchableOpacity style={homeScreenStyles.exploreLessonsCard} onPress={handleNavigateLeaderboards}>
-                <LinearGradient
-                  colors={['#FF6B35', '#F7931E', '#FFD23F']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
+                <Image
+                  source={require("../assets/images/LeaderBoardsCard.png")}
                   style={homeScreenStyles.cardBackground}
+                  resizeMode="cover"
                 />
                 <View style={homeScreenStyles.cardOverlay}>
                   <View style={homeScreenStyles.textContainer}>
@@ -526,11 +525,6 @@ const HomeScreen = () => {
                       See how you rank among your peers
                     </Text>
                   </View>
-                  <Image
-                    source={require("../assets/images/trophy.png")}
-                    style={homeScreenStyles.cardIcon}
-                    resizeMode="contain"
-                  />
                 </View>
               </TouchableOpacity>
             </Animated.View>
@@ -556,7 +550,7 @@ const HomeScreen = () => {
             <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
               <TouchableOpacity style={homeScreenStyles.exploreLessonsCard} onPress={handleNavigateScenario}>
                 <Image
-                  source={require("../assets/images/GamesCardImage.png")}
+                  source={require("../assets/images/3DScenariosCard.png")}
                   style={homeScreenStyles.cardBackground}
                   resizeMode="cover"
                 />

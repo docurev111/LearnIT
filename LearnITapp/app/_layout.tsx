@@ -36,6 +36,7 @@ function MainLayout() {
           <Stack.Screen name="ScenarioScreen" options={{ headerShown: false }} />
           <Stack.Screen name="AchievementsScreen" options={{ headerShown: false }} />
           <Stack.Screen name="ValuesWordScramble" options={{ headerShown: false }} />
+          <Stack.Screen name="ValuesPathRunner" options={{ headerShown: false }} />
           <Stack.Screen 
             name="LessonSimpleScreen" 
             options={{ 

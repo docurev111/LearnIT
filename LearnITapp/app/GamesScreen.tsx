@@ -38,6 +38,8 @@ export default function GamesScreen() {
     new Animated.Value(0),
     new Animated.Value(0),
     new Animated.Value(0),
+    new Animated.Value(0),
+    new Animated.Value(0),
   ]).current;
 
   const games: Game[] = [
@@ -70,6 +72,26 @@ export default function GamesScreen() {
       isLocked: false,
       accentColor: ['rgba(255, 255, 255, 0.1)', 'rgba(255, 149, 0, 0.9)'],
       difficulty: 'Medium',
+    },
+    {
+      id: 'emotion_match',
+      title: 'Emotion Match',
+      shortDescription: 'Recognize emotions and respond with empathy!',
+      description: 'A fast-paced game where you identify emotions in different situations and choose the best empathetic response. Perfect for developing pakikiramdam and emotional intelligence!',
+      emoji: '💭',
+      isLocked: false,
+      accentColor: ['rgba(255, 255, 255, 0.1)', 'rgba(139, 92, 246, 0.9)'],
+      difficulty: 'Medium',
+    },
+    {
+      id: 'values_path_runner',
+      title: 'Values Path Runner',
+      shortDescription: 'Run and collect good values on your journey!',
+      description: 'An endless runner where you jump to collect values and avoid obstacles. Test your reflexes and make good choices as you run through the path of life!',
+      emoji: '🏃‍♂️',
+      isLocked: false,
+      accentColor: ['rgba(255, 255, 255, 0.1)', 'rgba(255, 107, 157, 0.9)'],
+      difficulty: 'Hard',
     },
   ];
 
@@ -111,6 +133,10 @@ export default function GamesScreen() {
         router.push('/MemoryCardGame' as any);
       } else if (selectedGame.id === 'values_word_scramble') {
         router.push('/ValuesWordScramble' as any);
+      } else if (selectedGame.id === 'emotion_match') {
+        router.push('/EmotionMatchGame' as any);
+      } else if (selectedGame.id === 'values_path_runner') {
+        router.push('/ValuesPathRunner' as any);
       }
     }, 300);
   };
@@ -165,7 +191,15 @@ export default function GamesScreen() {
                   disabled={game.isLocked}
                 >
                   <View style={styles.emojiContainer}>
-                    <Text style={styles.cardEmoji}>{game.emoji}</Text>
+                    {game.id === 'values_path_runner' ? (
+                      <Image 
+                        source={require('../assets/valuespathrunner/run_16.gif')}
+                        style={styles.cardGif}
+                        resizeMode="contain"
+                      />
+                    ) : (
+                      <Text style={styles.cardEmoji}>{game.emoji}</Text>
+                    )}
                   </View>
                   <View style={styles.textContainer}>
                     <Text style={styles.cardTitle}>{game.title}</Text>
@@ -174,16 +208,6 @@ export default function GamesScreen() {
                 </TouchableOpacity>
               </LinearGradient>
             </Animated.View>
-          ))}
-
-          {/* Coming Soon Cards */}
-          {[1, 2].map((_, index) => (
-            <View key={`coming-${index}`} style={styles.card}>
-              <View style={styles.comingSoonCard}>
-                <Text style={styles.comingSoonEmoji}>🔒</Text>
-                <Text style={styles.comingSoonText}>Coming Soon</Text>
-              </View>
-            </View>
           ))}
         </ScrollView>
       </View>
@@ -199,7 +223,15 @@ export default function GamesScreen() {
           <View style={styles.modalContent}>
             {selectedGame && (
               <>
-                <Text style={styles.modalEmoji}>{selectedGame.emoji}</Text>
+                {selectedGame.id === 'values_path_runner' ? (
+                  <Image 
+                    source={require('../assets/valuespathrunner/run_16.gif')}
+                    style={styles.modalGif}
+                    resizeMode="contain"
+                  />
+                ) : (
+                  <Text style={styles.modalEmoji}>{selectedGame.emoji}</Text>
+                )}
                 <Text style={styles.modalTitle}>{selectedGame.title}</Text>
                 <Text style={styles.modalDescription}>{selectedGame.description}</Text>
                 
@@ -304,6 +336,10 @@ const styles = StyleSheet.create({
   cardEmoji: { 
     fontSize: 28,
   },
+  cardGif: {
+    width: 40,
+    height: 40,
+  },
   textContainer: {
     marginBottom: 12,
     paddingHorizontal: 12,
@@ -334,6 +370,12 @@ const styles = StyleSheet.create({
     color: "#6D6D80",
     fontWeight: "600",
   },
+  comingSoonSubtext: {
+    fontSize: 12,
+    color: "#9D9DAA",
+    marginTop: 5,
+    fontStyle: 'italic',
+  },
   // Modal Styles
   modalOverlay: {
     flex: 1,
@@ -352,6 +394,11 @@ const styles = StyleSheet.create({
   },
   modalEmoji: {
     fontSize: 60,
+    marginBottom: 15,
+  },
+  modalGif: {
+    width: 80,
+    height: 80,
     marginBottom: 15,
   },
   modalTitle: {
@@ -389,7 +436,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: "center",
   },
-  cancelButtonText: {
+   cancelButtonText: {
     color: "#6D6D80",
     fontSize: 16,
     fontWeight: "600",

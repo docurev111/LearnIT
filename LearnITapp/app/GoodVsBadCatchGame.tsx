@@ -9,13 +9,14 @@ import {
   TouchableOpacity,
   Modal,
   Alert,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
 const BASKET_WIDTH = 80;
-const BASKET_HEIGHT = 60;
+const BASKET_HEIGHT = 80;
 const OBJECT_SIZE = 50;
 const GAME_DURATION = 60000; // 60 seconds
 const MAX_MISSES = 10;
@@ -62,8 +63,10 @@ export default function GoodVsBadCatchGame() {
   const [goodCaught, setGoodCaught] = useState<string[]>([]);
   const [badAvoided, setBadAvoided] = useState<string[]>([]);
   const [showReflection, setShowReflection] = useState(false);
+  const [characterState, setCharacterState] = useState<'idle' | 'left' | 'right'>('idle');
   
   const basketPosition = useRef(new Animated.Value(width / 2 - BASKET_WIDTH / 2)).current;
+  const lastPosition = useRef(width / 2 - BASKET_WIDTH / 2);
   const gameLoopRef = useRef<number | null>(null);
   const spawnIntervalRef = useRef<number | null>(null);
   const timerRef = useRef<number | null>(null);
@@ -74,6 +77,18 @@ export default function GoodVsBadCatchGame() {
     onPanResponderMove: (_, gestureState) => {
       const newX = Math.max(0, Math.min(width - BASKET_WIDTH, gestureState.moveX - BASKET_WIDTH / 2));
       basketPosition.setValue(newX);
+      
+      // Determine character direction based on movement
+      if (newX > lastPosition.current + 5) {
+        setCharacterState('right');
+      } else if (newX < lastPosition.current - 5) {
+        setCharacterState('left');
+      }
+      lastPosition.current = newX;
+    },
+    onPanResponderRelease: () => {
+      // Return to idle when user stops moving
+      setTimeout(() => setCharacterState('idle'), 200);
     },
   });
 
@@ -262,7 +277,7 @@ export default function GoodVsBadCatchGame() {
             </Animated.View>
           ))}
 
-          {/* Basket */}
+          {/* Character Catcher */}
           <Animated.View
             style={[
               styles.basket,
@@ -272,7 +287,14 @@ export default function GoodVsBadCatchGame() {
               }
             ]}
           >
-            <Text style={styles.basketEmoji}>🧺</Text>
+            <Image
+              source={require('../assets/goodvsbad/character.png')}
+              style={[
+                styles.characterImage,
+                characterState === 'left' && { transform: [{ scaleX: -1 }] }
+              ]}
+              resizeMode="contain"
+            />
           </Animated.View>
         </View>
 
@@ -502,6 +524,21 @@ const styles = StyleSheet.create({
   },
   basketEmoji: {
     fontSize: 40,
+  },
+  characterContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  characterEmoji: {
+    fontSize: 50,
+    marginBottom: -10,
+  },
+  basketIconSmall: {
+    fontSize: 30,
+  },
+  characterImage: {
+    width: BASKET_WIDTH,
+    height: BASKET_HEIGHT,
   },
   gameInstructions: {
     padding: 16,
