@@ -669,6 +669,7 @@ const styles = StyleSheet.create({
   gameTitle: {
     fontSize: 32,
     fontWeight: 'bold',
+    fontFamily: 'Architype-Aubette',
     color: '#fff',
     marginBottom: 10,
     textAlign: 'center',

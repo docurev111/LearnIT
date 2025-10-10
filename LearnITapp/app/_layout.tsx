@@ -6,8 +6,14 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import { AchievementProvider, useAchievements } from '../contexts/AchievementContext';
 import AchievementNotification from '../components/AchievementNotification';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 // Initialize i18n
 import '../i18n';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 function MainLayout() {
   const colorScheme = useColorScheme();
@@ -61,6 +67,26 @@ function MainLayout() {
 }
 
 export default function RootLayout() {
+  const [fontsLoaded, fontError] = useFonts({
+    'Architype-Aubette': require('../assets/fonts/Architype Aubette W90.ttf'),
+  });
+
+  useEffect(() => {
+    if (fontError) {
+      console.error('Font loading error:', fontError);
+    }
+    if (fontsLoaded) {
+      console.log('Fonts loaded successfully!');
+      SplashScreen.hideAsync();
+    } else if (fontError) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AchievementProvider>

@@ -9,10 +9,12 @@ import {
   Alert,
   SafeAreaView,
   ScrollView,
+  Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { Video, ResizeMode } from 'expo-av';
 
 const { width, height } = Dimensions.get('window');
 
@@ -71,6 +73,8 @@ const WORDS = [
 ];
 
 export default function ValuesWordScramble() {
+  const [gameState, setGameState] = useState<'intro' | 'playing' | 'ended'>('intro');
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [scrambledWord, setScrambledWord] = useState('');
   const [selectedLetters, setSelectedLetters] = useState<number[]>([]);
@@ -84,13 +88,55 @@ export default function ValuesWordScramble() {
   const shakeAnimation = useRef(new Animated.Value(0)).current;
   const successAnimation = useRef(new Animated.Value(0)).current;
   const letterAnimations = useRef<Animated.Value[]>([]).current;
+  
+  // Welcome screen animations
+  const valuesOpacity = useRef(new Animated.Value(0)).current;
+  const wordScrambleOpacity = useRef(new Animated.Value(0)).current;
+  const buttonScale = useRef(new Animated.Value(1)).current;
 
   const currentWord = WORDS[currentWordIndex];
 
+  // Welcome screen animations
+  useEffect(() => {
+    if (gameState === 'intro') {
+      // Fade in VALUES first
+      Animated.timing(valuesOpacity, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }).start(() => {
+        // Then fade in WORD SCRAMBLE
+        Animated.timing(wordScrambleOpacity, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }).start();
+      });
+
+      // Button pulsing animation (continuous loop)
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(buttonScale, {
+            toValue: 1.1,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+          Animated.timing(buttonScale, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    }
+  }, [gameState]);
+
   // Initialize game
   useEffect(() => {
-    initializeWord();
-  }, [currentWordIndex]);
+    if (gameState === 'playing') {
+      initializeWord();
+    }
+  }, [currentWordIndex, gameState]);
 
   const initializeWord = () => {
     const word = WORDS[currentWordIndex].word;
@@ -308,8 +354,134 @@ export default function ValuesWordScramble() {
     );
   };
 
-  return (
-    <LinearGradient colors={['#4A90E2', '#357ABD']} style={styles.container}>
+  // WELCOME SCREEN
+  if (gameState === 'intro') {
+    return (
+      <>
+        <View style={styles.container}>
+          <Video
+            source={require('../assets/valueswordscramble/welcomescreen/bg.mp4')}
+            style={styles.videoBackground}
+            resizeMode={ResizeMode.COVER}
+            isLooping
+            shouldPlay
+            isMuted
+          />
+          
+          <View style={styles.welcomeOverlay}>
+            <View style={styles.welcomeContainer}>
+              {/* Top Section - empty to match structure */}
+              <View style={styles.topSection}>
+              </View>
+
+              {/* Middle section with titles and buttons */}
+              <View style={styles.middleSection}>
+                {/* Values Text - Fade in first with custom font */}
+                <Animated.Text style={[styles.titleValues, { opacity: valuesOpacity }]}>
+                  VALUES
+                </Animated.Text>
+
+                {/* Word Scramble Title - Fade in after VALUES with custom font */}
+                <Animated.Text style={[styles.titleWordScramble, { opacity: wordScrambleOpacity }]}>
+                  WORD SCRAMBLE
+                </Animated.Text>
+
+                {/* Start Button - below title with pulse animation */}
+                <TouchableOpacity 
+                  style={styles.welcomeStartButton}
+                  onPress={() => {
+                    setGameState('playing');
+                  }}
+                  activeOpacity={0.8}
+                >
+                  <Animated.Image 
+                    source={require('../assets/valueswordscramble/welcomescreen/startbutton.png')}
+                    style={[styles.startButtonImage, { transform: [{ scale: buttonScale }] }]}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+
+                {/* Back Button - below Start with pulse animation */}
+                <TouchableOpacity 
+                  style={styles.welcomeBackButtonBottom}
+                  onPress={() => {
+                    router.back();
+                  }}
+                  activeOpacity={0.8}
+                >
+                  <Animated.Image 
+                    source={require('../assets/valueswordscramble/welcomescreen/backbutton.png')}
+                    style={[styles.backButtonImageBottom, { transform: [{ scale: buttonScale }] }]}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+
+                {/* How to Play - below Back with pulse animation */}
+                <TouchableOpacity 
+                  style={styles.howToPlayButton} 
+                  onPress={() => {
+                    setShowHowToPlay(true);
+                  }}
+                  activeOpacity={0.8}
+                >
+                  <Animated.Image 
+                    source={require('../assets/valueswordscramble/welcomescreen/howtoplay.png')}
+                    style={[styles.howToPlayImage, { transform: [{ scale: buttonScale }] }]}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* How to Play Modal */}
+        {showHowToPlay && (
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.howToPlayContent}>
+                <Text style={styles.howToPlayTitle}>Paano Maglaro? 🎮</Text>
+                <ScrollView style={styles.howToPlayScroll}>
+                  <Text style={styles.howToPlayText}>
+                    {'\n'}📖 <Text style={styles.bold}>Layunin:</Text>{'\n'}
+                    Hulaan ang tamang salita ng Values sa pamamagitan ng pag-ayos ng mga letra!{'\n\n'}
+                    
+                    {'\n'}🎯 <Text style={styles.bold}>Paano:</Text>{'\n'}
+                    • Tingnan ang larawan at basahin ang paliwanag{'\n'}
+                    • I-tap ang mga letra sa tamang pagkakasunod-sunod{'\n'}
+                    • Kumpletuhin ang salita para sa puntos!{'\n\n'}
+                    
+                    {'\n'}💡 <Text style={styles.bold}>Mga Tip:</Text>{'\n'}
+                    • Gumamit ng "Hint" button kung nahihirapan ka{'\n'}
+                    • Basahing mabuti ang paliwanag{'\n'}
+                    • Subukang hulaan bago gumamit ng hint!{'\n\n'}
+                    
+                    {'\n'}🌟 <Text style={styles.bold}>Puntos:</Text>{'\n'}
+                    • Tamang sagot = +10 puntos{'\n'}
+                    • Gamit ng Hint = -5 puntos{'\n\n'}
+                    
+                    {'\n'}✨ Magsaya at matuto ng mga Filipino Values!
+                  </Text>
+                </ScrollView>
+              </View>
+              <TouchableOpacity 
+                style={styles.closeButton}
+                onPress={() => setShowHowToPlay(false)}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="close" size={30} color="#fff" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      </>
+    );
+  }
+
+  // PLAYING SCREEN
+  if (gameState === 'playing') {
+    return (
+      <LinearGradient colors={['#4A90E2', '#357ABD']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         {/* Header */}
         <View style={styles.header}>
@@ -473,10 +645,11 @@ export default function ValuesWordScramble() {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-
-
     </LinearGradient>
-  );
+    );
+  }
+
+  return null;
 }
 
 const styles = StyleSheet.create({
@@ -705,5 +878,139 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#FFFFFF',
+  },
+  // Welcome Screen Styles
+  videoBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+  },
+  welcomeOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  },
+  welcomeContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 40,
+  },
+  topSection: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  middleSection: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+  },
+  titleValues: {
+    fontSize: 62,
+    fontFamily: 'Architype-Aubette',
+    color: '#FFD700',
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 10,
+    letterSpacing: 8,
+    marginTop: -180,
+    marginBottom: -40,
+  },
+  titleWordScramble: {
+    fontSize: 42,
+    fontFamily: 'Architype-Aubette',
+    color: '#fff',
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 10,
+    letterSpacing: 4,
+  },
+  welcomeStartButton: {
+    marginTop: -25,
+  },
+  startButtonImage: {
+    width: 90,
+    height: 60,
+    marginBottom: -45,
+  },
+  welcomeBackButtonBottom: {
+    zIndex: 10,
+  },
+  backButtonImageBottom: {
+    width: 90,
+    height: 60,
+    marginTop: -10,
+  },
+  howToPlayButton: {
+  },
+  howToPlayImage: {
+    width: 120,
+    height: 180,
+    marginTop: -110,
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  },
+  modalContent: {
+    position: 'relative',
+    width: width * 0.9,
+    maxWidth: 400,
+  },
+  howToPlayContent: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    maxHeight: height * 0.7,
+  },
+  howToPlayTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#4A90E2',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  howToPlayScroll: {
+    maxHeight: height * 0.6,
+  },
+  howToPlayText: {
+    fontSize: 16,
+    color: '#333',
+    lineHeight: 24,
+  },
+  bold: {
+    fontWeight: 'bold',
+    color: '#4A90E2',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    backgroundColor: '#EF4444',
+    borderRadius: 20,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 });
