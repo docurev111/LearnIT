@@ -63,6 +63,7 @@ export default function ValuesPathRunner() {
   const [gameObjects, setGameObjects] = useState<GameObject[]>([]);
   const [gameAreaHeight, setGameAreaHeight] = useState<number>(0);
   const [gameAreaMeasured, setGameAreaMeasured] = useState<boolean>(false);
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
   
   const characterY = useRef(new Animated.Value(0)).current;
   const characterYValue = useRef(0);
@@ -303,8 +304,9 @@ export default function ValuesPathRunner() {
   // INTRO SCREEN
   if (gameState === 'intro') {
     return (
-      <View style={styles.container}>
-        <ImageBackground 
+      <>
+        <View style={styles.container}>
+          <ImageBackground 
           source={require('../assets/valuespathrunner/welcomescreen/bgimage.png')}
           style={styles.welcomeBackground}
           resizeMode="cover"
@@ -371,7 +373,7 @@ export default function ValuesPathRunner() {
               <TouchableOpacity 
                 style={styles.howToPlayButton} 
                 onPress={() => {
-                  console.log('HOW TO PLAY button pressed');
+                  setShowHowToPlay(true);
                 }}
                 activeOpacity={0.8}
               >
@@ -384,7 +386,28 @@ export default function ValuesPathRunner() {
             </View>
           </View>
         </ImageBackground>
-      </View>
+        </View>
+
+        {/* How to Play Modal */}
+        {showHowToPlay && (
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Image 
+                source={require('../assets/valuespathrunner/welcomescreen/howtoplaytext.png')}
+                style={styles.howToPlayTextImage}
+                resizeMode="contain"
+              />
+              <TouchableOpacity 
+                style={styles.closeButton}
+                onPress={() => setShowHowToPlay(false)}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="close" size={30} color="#fff" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      </>
     );
   }
 
@@ -436,23 +459,24 @@ export default function ValuesPathRunner() {
             )}
 
             {/* Ground/Platform with trees and clouds */}
-          <View style={styles.ground}>
+            <View style={styles.ground}>
               {/* Trees and clouds background - above platform */}
               <Image
                 source={require('../assets/valuespathrunner/welcomescreen/treesandclouds.png')}
                 style={styles.treesAndClouds}
                 resizeMode="cover"
               />
-              {/* Platform at bottom */}
+              
+              {/* Static platform at bottom */}
               <Image
                 source={require('../assets/valuespathrunner/welcomescreen/platform1.png')}
-              style={styles.platform}
+                style={styles.platform}
                 resizeMode="cover"
               />
             </View>
 
             {/* Game Objects */}
-          {gameObjects.map(obj => (
+            {gameObjects.map(obj => (
               <Animated.View
                 key={obj.id}
                 style={[
@@ -853,7 +877,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     width: '100%',
-    height: 110, // Adjust height as needed
+    height: 110,
   },
   platform: {
     position: 'absolute',
@@ -987,5 +1011,42 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  },
+  modalContent: {
+    position: 'relative',
+    width: width * 0.9,
+    maxWidth: 400,
+  },
+  howToPlayTextImage: {
+    width: '100%',
+    height: undefined,
+    aspectRatio: 1,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    backgroundColor: '#EF4444',
+    borderRadius: 20,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 });
