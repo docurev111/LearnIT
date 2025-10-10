@@ -257,24 +257,16 @@ This project follows:
 
 ---
 
-## 📄 License
-
-[Add your license here]
-
----
-
 ## 👥 Team
 
-- **Project Lead:** [Your Name]
-- **Developers:** [Team Members]
-- **Advisors:** [Advisors]
+- **Project Lead:** [Gerwin Alcober]
+- **Developers:** [Gerwin Alcober, Stephen Rodriguez]
 
 ---
 
 ## 📞 Support
 
 - **Issues:** [GitHub Issues](https://github.com/docurev111/LearnIT/issues)
-- **Email:** [Contact Email]
 - **Documentation:** Check the `/docs` folder
 
 ---
@@ -288,8 +280,6 @@ This project follows:
 ---
 
 <div align="center">
-
-**Made with ❤️ for Filipino students**
 
 ⭐ Star this repo if you find it helpful!
 
