@@ -54,6 +54,7 @@ npm install
 2. Place it at: `LearnIT/src/serviceAccountKey.json`
 3. See [`FIREBASE_SETUP.md`](./FIREBASE_SETUP.md) for detailed instructions
 4. Create your own ".env" file and place it inside of the "LearnITapp" folder. The details will be sent by the lead developer. (see .envexample for more details)
+5. Edit the "api-probe.ts" and add your local IP address to the list of addresses (you can get it from doing the ipconfig command in CMD)
 
 ### Run the Application
 
@@ -261,7 +262,7 @@ This project follows:
 ## 👥 Team
 
 - **Project Lead:** [Gerwin Alcober]
-- **Developers:** [Gerwin Alcober, Stephen Rodriguez]
+- **Developers:** [Gerwin Alcober, Stephen Rodriguez, Erish Gonzales]
 
 ---
 
