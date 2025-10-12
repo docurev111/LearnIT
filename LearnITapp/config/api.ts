@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 
 // Auto-pick a sensible default in dev, allow override via EXPO_PUBLIC_API_URL
 // For physical phone: use your computer's local network IP (both devices must be on same WiFi)
-const LOCAL_NETWORK_IP = 'http://10.210.1.244:3000';
+const LOCAL_NETWORK_IP = 'http://192.168.254.115:3000';
 
 const DEFAULT_DEV = Platform.select({
 	android: LOCAL_NETWORK_IP, // Physical phone - use local network IP

@@ -122,7 +122,7 @@ export default function Signup() {
     <View style={styles.container}>
       {/* LearnIT Logo */}
       <Image
-        source={require("../assets/images/LandingLogo.png")}
+        source={require("../assets/images/LandingLogo2.png")}
         style={[
           styles.logo,
           {

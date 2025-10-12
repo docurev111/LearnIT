@@ -68,7 +68,7 @@ const LandingPage = () => {
 
       {/* Logo with animations - now centered */}
       <Animated.Image
-        source={require("../assets/images/LandingLogo.png")}
+        source={require("../assets/images/LandingLogo2.png")}
         style={[
           styles.logo,
           {

@@ -408,7 +408,7 @@ const HomeScreen = () => {
         {/* Top Bar with Logo and Icons */}
         <Animated.View style={[homeScreenStyles.topBar, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
           <Image
-            source={require("../assets/images/LandingLogo.png")}
+            source={require("../assets/images/LandingLogo2.png")}
             style={homeScreenStyles.logo}
             resizeMode="contain"
           />
@@ -440,9 +440,9 @@ const HomeScreen = () => {
           >
             <View style={homeScreenStyles.welcomeContent}>
               <Text style={homeScreenStyles.welcomeText}>Welcome to</Text>
-              <Text style={homeScreenStyles.learnIT}>LearnIT!</Text>
+              <Text style={homeScreenStyles.learnIT}>VirtuEd!</Text>
               <Text style={homeScreenStyles.subText}>
-                Your go-to application{"\n"}for learning about ICT
+                Learn about Values Education 7!
               </Text>
               <TouchableOpacity style={homeScreenStyles.startButton} onPress={handleStartLearning}>
                 <Text style={homeScreenStyles.startButtonText}>Start Learning</Text>
@@ -459,16 +459,23 @@ const HomeScreen = () => {
         </Animated.View>
 
         {/* Tabs (Featured, Leaderboards, Announcements) */}
-        <Animated.View style={[homeScreenStyles.tabs, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
-          <TouchableOpacity onPress={() => handleTabPress('Featured')}>
-            <Text style={[homeScreenStyles.tab, activeTab === 'Featured' && homeScreenStyles.tabActive]}>{t('navigation.home')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleTabPress('Leaderboards')}>
-            <Text style={[homeScreenStyles.tab, activeTab === 'Leaderboards' && homeScreenStyles.tabActive]}>{t('leaderboard.title')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleTabPress('Announcements')}>
-            <Text style={[homeScreenStyles.tab, activeTab === 'Announcements' && homeScreenStyles.tabActive]}>Announcements</Text>
-          </TouchableOpacity>
+        {/* added horizontal scrolling */}
+        <Animated.View style={[homeScreenStyles.tabs, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}> 
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ flexDirection: 'row' }}
+          >
+            <TouchableOpacity onPress={() => handleTabPress('Featured')}>
+              <Text style={[homeScreenStyles.tab, activeTab === 'Featured' && homeScreenStyles.tabActive]}>{t('navigation.home')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleTabPress('Leaderboards')}>
+              <Text style={[homeScreenStyles.tab, activeTab === 'Leaderboards' && homeScreenStyles.tabActive]}>{t('leaderboard.title')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleTabPress('Announcements')}>
+              <Text style={[homeScreenStyles.tab, activeTab === 'Announcements' && homeScreenStyles.tabActive]}>Announcements</Text>
+            </TouchableOpacity>
+          </ScrollView>
         </Animated.View>
 
         {/* Content Based on Active Tab */}
@@ -486,7 +493,7 @@ const HomeScreen = () => {
                   <View style={homeScreenStyles.textContainer}>
                     <Text style={homeScreenStyles.cardTitle}>Explore Lessons</Text>
                     <Text style={homeScreenStyles.cardSubtitle}>
-                      Discover amazing topics about ICT
+                      Discover amazing topics about Values Education 7!
                     </Text>
                   </View>
                 </View>
@@ -540,7 +547,7 @@ const HomeScreen = () => {
                   <View style={homeScreenStyles.textContainer}>
                     <Text style={homeScreenStyles.cardTitle}>Play Games</Text>
                     <Text style={homeScreenStyles.cardSubtitle}>
-                      Fun mini games for Edukasyon sa Pagpapakatao
+                      Fun mini games for Values Education 7
                     </Text>
                   </View>
                 </View>

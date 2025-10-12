@@ -22,7 +22,7 @@ import { auth } from '../firebaseConfig';
 const INITIAL_LESSONS = [
   {
     id: 1,
-    title: 'Gamit ng Isip at Kilos-loob sa sariling pagpapasiya at pagkilos',
+    title: 'Gamit ng Isip at Kilos-loob sa Sariling Pagpapasiya at Pagkilos',
     description: 'Araling tungkol sa katangian, gamit, at tunguhin ng isip at kilos-loob.',
     icon: require('../assets/gifs/number1.gif'),
     status: 'available',
@@ -431,44 +431,10 @@ export default function FirstQuarter() {
 
   const handleLessonPress = (lesson: any) => {
     if (lesson.status !== "locked") {
-      console.log('Lesson pressed:', lesson.title); // Debug log
-      // Load detailed lesson metadata/pages from backend before showing modal
-      (async () => {
-        setModalLoading(true);
-        setModalVisible(true);
-        setSelectedLesson({ ...lesson, loading: true });
-        try {
-          const picked = await pickApiBase();
-          // try test/lesson-pages first
-          const pagesRes = await fetch(`${picked}/test/lesson-pages/${lesson.id}`);
-          if (pagesRes.ok) {
-            const json = await pagesRes.json();
-            const pages = json.pages || json;
-            const content = (pages || []).map((p: any) => p.content || '').join('\n\n');
-            setSelectedLesson({ ...lesson, content, loading: false });
-            return;
-          }
-
-          // fallback to /lessons
-          const lessonsRes = await fetch(`${picked}/lessons`);
-          if (lessonsRes.ok) {
-            const lessons = await lessonsRes.json();
-            const found = (lessons || []).find((l: any) => Number(l.id) === Number(lesson.id));
-            if (found) {
-              setSelectedLesson({ ...lesson, title: found.title || lesson.title, description: found.content || found.description || lesson.description, content: found.content || '', loading: false });
-              return;
-            }
-          }
-
-          // final fallback to local static lesson
-          setSelectedLesson({ ...lesson, loading: false });
-        } catch (e) {
-          console.warn('Failed to load lesson details', e);
-          setSelectedLesson({ ...lesson, loading: false });
-        } finally {
-          setModalLoading(false);
-        }
-      })();
+      router.push({
+        pathname: '/LessonIntroScreen',
+        params: { lessonId: lesson.id.toString(), lessonTitle: lesson.title },
+      });
     }
   };
 
@@ -487,7 +453,7 @@ export default function FirstQuarter() {
         {/* Header */}
         <View style={styles.header}>
           <Image
-            source={require("../assets/images/LandingLogo.png")}
+            source={require("../assets/images/LandingLogo2.png")}
             style={styles.logo}
             resizeMode="contain"
           />
@@ -507,7 +473,12 @@ export default function FirstQuarter() {
           <Text style={styles.sectionTitle}>First Quarter</Text>
 
           {/* Filter Buttons */}
-          <View style={styles.filterContainer}>
+          {/* added horizontal scrolling on filter */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.filterContainer}
+          >
             <FilterButton
               title="All Lessons"
               isActive={activeFilter === 'all'}
@@ -523,7 +494,7 @@ export default function FirstQuarter() {
               isActive={activeFilter === 'completed'}
               onPress={() => handleFilterPress('completed')}
             />
-          </View>
+          </ScrollView>
 
           {/* Lessons List */}
           <View style={styles.lessonsList}>
@@ -537,11 +508,7 @@ export default function FirstQuarter() {
         <BottomNav />
 
         {/* Lesson Intro Modal */}
-        <LessonIntroModal
-          isVisible={modalVisible}
-          onClose={handleCloseModal}
-          lesson={selectedLesson}
-        />
+        {/* Removed LessonIntroModal. Navigation now opens LessonIntroScreen. */}
       </View>
     </>
   );

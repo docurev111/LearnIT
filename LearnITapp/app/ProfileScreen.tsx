@@ -400,7 +400,7 @@ export default function ProfileScreen() {
                   source={
                     userProfile?.profile_picture 
                       ? { uri: userProfile.profile_picture }
-                      : require("../assets/images/LandingLogo.png")
+                      : require("../assets/images/LandingLogo2.png")
                   } 
                   style={profileScreenStyles.avatar} 
                 />

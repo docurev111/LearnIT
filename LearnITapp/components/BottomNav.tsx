@@ -13,7 +13,8 @@ const BottomNav = () => {
   const { isSmallDevice, isTablet, scale } = useResponsive();
   
   // Responsive sizes
-  const navHeight = isTablet ? 80 : isSmallDevice ? 60 : 70;
+  // changed navheight for small devices to 80
+  const navHeight = isTablet ? 80 : isSmallDevice ? 80 : 70;
   const iconSize = scale(32);
   const homeIconSize = scale(36);
   const paddingVertical = isTablet ? 16 : isSmallDevice ? 8 : 12;
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     // Add safe area support for devices with notches/home indicators
-    paddingBottom: Platform.OS === 'ios' ? 20 : 0,
+      paddingBottom: Platform.OS === 'ios' ? 20 : Platform.OS === 'android' ? 40 : 0,
   },
   icon: {
     tintColor: "#fff",

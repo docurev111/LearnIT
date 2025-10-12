@@ -248,7 +248,7 @@ export default function ExploreScenarios() {
       <View style={styles.container}>
         {/* Logo */}
         <Image
-          source={require("../assets/images/LandingLogo.png")}
+          source={require("../assets/images/LandingLogo2.png")}
           style={styles.logo}
           resizeMode="contain"
         />

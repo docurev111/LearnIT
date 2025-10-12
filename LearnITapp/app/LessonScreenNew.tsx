@@ -137,7 +137,7 @@ export default function ExploreLesson() {
       <View style={styles.container}>
         {/* Logo */}
         <Image
-          source={require("../assets/images/LandingLogo.png")}
+          source={require("../assets/images/LandingLogo2.png")}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -164,7 +164,7 @@ export default function ExploreLesson() {
 
         {/* Title */}
         <Text style={styles.title}>Explore Lessons</Text>
-        <Text style={styles.subtitle}>CHOOSE WHICH QUARTER TO LEARN FROM</Text>
+        <Text style={styles.subtitle}>CHOOSE WHICH QUARTER TO LEARN</Text>
 
         {/* Lesson Cards */}
         <ScrollView contentContainerStyle={styles.cardsContainer}>
@@ -220,7 +220,7 @@ export default function ExploreLesson() {
                 </View>
                 <View style={styles.textContainer}>
                   <Text style={styles.cardTitle}>First Quarter</Text>
-                  <Text style={styles.cardDetails}>40% | 8 LESSONS</Text>
+                  <Text style={styles.cardDetails}>40% | 7 LESSONS</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>

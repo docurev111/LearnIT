@@ -5,7 +5,9 @@ const DEFAULT_CANDIDATES = [
   'http://10.210.1.244:3000', // Your current LAN IP (update if it changes)
   'http://10.0.2.2:3000',     // Android emulator host loopback (only works on emulator)
   'http://127.0.0.1:3000',    // Localhost IP (only works on same device)
+  'http://192.168.254.115:3000',
   'http://localhost:3000'     // DNS-based localhost (can be slow)
+  
 ];
 
 async function probeUrl(url: string, timeout = 1000) {

@@ -187,7 +187,7 @@ export default function LoginScreen() {
 
       {/* Logo */}
       <Image
-        source={require("../assets/images/LandingLogo.png")}
+        source={require("../assets/images/LandingLogo2.png")}
         style={[
           loginScreenStyles.logo,
           {
