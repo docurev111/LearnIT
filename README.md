@@ -53,6 +53,7 @@ npm install
 1. Contact the project admin for `serviceAccountKey.json`
 2. Place it at: `LearnIT/src/serviceAccountKey.json`
 3. See [`FIREBASE_SETUP.md`](./FIREBASE_SETUP.md) for detailed instructions
+4. Create your own ".env" file and place it inside of the "LearnITapp" folder. The details will be sent by the lead developer. (see .envexample for more details)
 
 ### Run the Application
 
