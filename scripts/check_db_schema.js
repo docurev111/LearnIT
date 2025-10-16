@@ -1,5 +1,5 @@
 // Check database schema
-const db = require('../src/database/db');
+const db = require('../backend/database/db');
 
 console.log('🔍 CHECKING DATABASE SCHEMA...\n');
 

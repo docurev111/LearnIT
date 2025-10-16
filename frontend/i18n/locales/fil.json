@@ -1,0 +1,136 @@
+{
+  "common": {
+    "welcome": "Maligayang pagdating",
+    "loading": "Naglo-load...",
+    "error": "May mali",
+    "success": "Tagumpay",
+    "cancel": "Kanselahin",
+    "confirm": "Kumpirmahin",
+    "yes": "Oo",
+    "no": "Hindi",
+    "back": "Bumalik",
+    "next": "Susunod",
+    "save": "I-save",
+    "edit": "I-edit",
+    "delete": "Tanggalin"
+  },
+  "navigation": {
+    "home": "Tahanan",
+    "lessons": "Mga Aralin",
+    "games": "Mga Laro",
+    "leaderboard": "Leaderboard",
+    "profile": "Profile",
+    "settings": "Mga Setting",
+    "achievements": "Mga Tagumpay"
+  },
+  "settings": {
+    "title": "Mga Setting",
+    "account": "Account",
+    "accountInformation": "Impormasyon ng account",
+    "notifications": "Mga Notification",
+    "accessibility": "Accessibility",
+    "largeText": "Malaking Text",
+    "highContrast": "Mataas na Contrast",
+    "soundEffects": "Mga Sound Effect",
+    "hapticFeedback": "Haptic Feedback",
+    "languageOptions": "Mga pagpipilian ng wika",
+    "about": "Tungkol",
+    "appVersion": "Bersyon ng App",
+    "helpSupport": "Tulong at Suporta",
+    "privacyPolicy": "Privacy Policy",
+    "logout": "Mag-logout",
+    "logoutConfirm": "Sigurado ka bang gusto mong mag-logout?",
+    "logoutError": "Hindi makapag-logout. Subukan ulit.",
+    "languageChanged": "Matagumpay na nabago ang wika!"
+  },
+  "languages": {
+    "english": "Ingles",
+    "filipino": "Filipino"
+  },
+  "home": {
+    "welcomeBack": "Maligayang pagbabalik!",
+    "continueJourney": "Ipagpatuloy ang inyong pag-aaral",
+    "dailyGoal": "Araw-araw na Layunin",
+    "streak": "Araw na Tuloy-tuloy",
+    "totalXP": "Kabuuang XP"
+  },
+  "profile": {
+    "title": "Profile",
+    "level": "Level",
+    "experience": "Karanasan",
+    "achievements": "Mga Tagumpay",
+    "statistics": "Mga Estadistika",
+    "editProfile": "I-edit ang Profile"
+  },
+  "achievements": {
+    "title": "Mga Tagumpay",
+    "earned": "Nakamit",
+    "notEarned": "Hindi pa Nakamit",
+    "progress": "Progreso",
+    "rarity": {
+      "common": "Karaniwan",
+      "uncommon": "Hindi Karaniwan",
+      "rare": "Bihira",
+      "epic": "Epiko",
+      "legendary": "Alamat"
+    }
+  },
+  "lessons": {
+    "title": "Mga Aralin",
+    "continue": "Magpatuloy",
+    "start": "Simulan",
+    "completed": "Tapos na",
+    "locked": "Nakakandado",
+    "progress": "Progreso"
+  },
+  "games": {
+    "title": "Mga Laro",
+    "play": "Maglaro",
+    "highScore": "Pinakamataas na Score",
+    "bestTime": "Pinakamabuting Oras",
+    "goodVsBadCatch": "Good vs Bad Catch",
+    "description": "Subukan ang inyong bilis at kaalaman!",
+    "startGame": "Simulan ang Laro",
+    "gameOver": "Tapos na ang Laro",
+    "score": "Score",
+    "tryAgain": "Subukan Ulit"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "rank": "Ranggo",
+    "player": "Manlalaro",
+    "points": "Mga Puntos",
+    "level": "Level",
+    "you": "Ikaw",
+    "top10": "Top 10 na mga Nag-aaral",
+    "yourRank": "Inyong Ranggo",
+    "loading": "Naglo-load ng leaderboard...",
+    "noData": "Walang available na leaderboard data"
+  },
+  "welcome": {
+    "title": "Maligayang pagdating sa LearnIT",
+    "subtitle": "Ang inyong paglalakbay sa IT mastery ay nagsisimula dito",
+    "getStarted": "Magsimula",
+    "signIn": "Mag-sign In",
+    "features": {
+      "learn": "Matuto sa inyong sariling bilis",
+      "practice": "Mag-practice gamit ang interactive exercises",
+      "compete": "Makipagkumpitensya sa ibang mga nag-aaral"
+    }
+  },
+  "auth": {
+    "login": "Mag-login",
+    "signup": "Mag-sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Kumpirmahin ang Password",
+    "forgotPassword": "Nakalimutan ang Password?",
+    "dontHaveAccount": "Walang account?",
+    "alreadyHaveAccount": "May account na?",
+    "signInGoogle": "Mag-sign in gamit ang Google",
+    "signInApple": "Mag-sign in gamit ang Apple",
+    "fullName": "Buong Pangalan",
+    "createAccount": "Gumawa ng Account",
+    "signInToAccount": "Mag-sign in sa inyong account"
+  }
+}

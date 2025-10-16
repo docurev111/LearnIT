@@ -1,5 +1,5 @@
 // Reset user progress and achievements for testing
-const db = require('../src/database/db');
+const db = require('../backend/database/db');
 
 function runQuery(sql, params = []) {
   return new Promise((resolve, reject) => {
